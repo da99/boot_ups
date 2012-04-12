@@ -27,6 +27,10 @@ set -u -e
 
 sudo apt-get update
 sudo apt-get -y upgrade
+
+# http://www.cgurnik.com/2011/02/20/fixing-perl-warning-setting-locale-failed-in-ubuntu/                                                                                                                      
+dpkg-reconfigure locales
+
 sudo apt-get -y install build-essential zlib1g-dev zlib1g libssl-dev libreadline5 libreadline5-dev libsqlite3-dev 
 sudo apt-get -y install git curl htop atop
 
