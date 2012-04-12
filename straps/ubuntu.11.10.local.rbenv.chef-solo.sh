@@ -6,7 +6,7 @@
 #
 # One way to run this script: 
 # 
-#    curl -L URL_OF_RAW_FILE | bash
+#    wget -O boot.sh URL_OF_RAW_FILE && cat boot.sh | bash
 #
 # Installs RBENV/Ruby and Chef-Solo to local user.
 # From then on, you can use Chef-Solo to replace the Ruby installation with something 
