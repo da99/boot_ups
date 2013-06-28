@@ -86,6 +86,14 @@ gem install rbenv-rehash --no-rdoc --no-ri --verbose
 gem install ohai --no-rdoc --no-ri --verbose
 gem install chef --no-rdoc --no-ri --verbose 
 
+
+# ========== Optional: remove sendmail
+# from: http://www.bybe.net/blog/removing-sendmail-mta-from-start-up-ubuntu.html 
+sudo apt-get remove sendmail sendmail-bin postfix
+sudo apt-get purge postfix exim4 sendmail sendmail-bin
+echo "sendmail removed. REBOOT this machine manually."
+
+
 echo " **** Newbie tip: Reload your login shell: exec \$SHELL -l "
 exit 0
 

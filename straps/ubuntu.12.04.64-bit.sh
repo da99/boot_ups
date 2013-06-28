@@ -28,3 +28,8 @@ sudo add-apt-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install nodejs
 
+# ========== Optional: remove sendmail
+# from: http://www.bybe.net/blog/removing-sendmail-mta-from-start-up-ubuntu.html
+sudo apt-get remove sendmail sendmail-bin postfix
+sudo apt-get purge postfix exim4 sendmail sendmail-bin
+echo "sendmail removed. REBOOT this machine manually."
