@@ -15,6 +15,10 @@ sudo apt-get dist-upgrade
 sudo apt-get install build-essential libssl-dev python-software-properties python g++ make
 sudo apt-get install software-properties-common
 sudo apt-get install git curl htop atop
+sudo apt-get install libreadline6 libreadline6-dev
+sudo apt-get install build-essential zlib1g-dev libssl-dev libsqlite3-dev
+sudo apt-get install tree trash-cli python-software-properties
+sudo apt-get install libxslt-dev libxml2-dev 
 
 
 # =========== Optional: Removed apache2 ===============

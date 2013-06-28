@@ -32,6 +32,7 @@ sudo apt-get -y upgrade
 sudo dpkg-reconfigure locales
 
 sudo apt-get -y install build-essential zlib1g-dev zlib1g libssl-dev libreadline5 libreadline5-dev libsqlite3-dev 
+sudo apt-get install libreadline5 libreadline5-dev zlib1g
 sudo apt-get -y install git curl htop atop
 
 # ==== rbenv setup  
