@@ -1,13 +1,12 @@
+HashKnownHosts no
 Host *
   GSSAPIAuthentication no
   ForwardAgent no
-
-Host github
-  User git
-  Hostname github.com
 
 Host bitbucket
   User git
   Hostname bitbucket.org
 
-
+Host github
+  User git
+  Hostname github.com
