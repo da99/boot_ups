@@ -2,9 +2,21 @@
 #
 set -u -e -o pipefail
 
-# http://www.cgurnik.com/2011/02/20/fixing-perl-warning-setting-locale-failed-in-ubuntu/
-sudo dpkg-reconfigure locales
+NEW_USER="deployer"
+NAME_OF_MACHINE="$1"
 
+loc_done="/tmp/loc_done"
+if [[ ! -f "$loc_done" ]]
+then
+  #
+  # from: http://ubuntuforums.org/showthread.php?t=1346581
+  #
+  # http://www.cgurnik.com/2011/02/20/fixing-perl-warning-setting-locale-failed-in-ubuntu/
+  sudo dpkg-reconfigure locales
+  sudo locale-gen en_US en_US.UTF-8
+  sudo update-locale LANG=en_US.UTF-8
+  touch "$loc_done"
+fi
 
 # =========== Update/Upgrade =========================
 upgrade_done="/tmp/upgrade_done"
@@ -13,6 +25,9 @@ then
   sudo apt-get update
   sudo apt-get upgrade
   sudo apt-get dist-upgrade
+  sudo dpkg-reconfigure tzdata
+  sudo dpkg-reconfigure locales
+  sudo date
   touch "$upgrade_done"
 fi
 
@@ -34,7 +49,8 @@ sudo apt-get install build-essential            \
                      git                        \
                      curl                       \
                      htop                       \
-                     atop
+                     atop                       \
+                     sqlite3
 
 
 # =========== Remove apache2 ==========================
@@ -66,9 +82,17 @@ fi
 # ========== Setup base ssh config for bitbucket and github
 if [[ ! -f ~/.ssh/config ]]
 then
+
+  mkdir -p ~/.ssh
+  chmod 0700 ~/.ssh
   wget https://raw.github.com/da99/boot_ups/master/common/ssh_config
-  mk -p ~/.ssh
   mv ssh_config ~/.ssh/config
+
+  # === clear known_hosts and put known
+  ssh-keyscan -t rsa bitbucket.org >  ~/.ssh/known_hosts
+  ssh-keyscan -t rsa github.com    >> ~/.ssh/known_hosts
+
+  chmod 0440 -R ~/.ssh
 fi
 
 # ==== Get user input:
@@ -77,25 +101,44 @@ fi
 git_done="/tmp/git_done"
 if [[ ! -f "$git_done" ]]
 then
-  echo "What is the git user name?"
-  read NAME
-  git config --global user.name  "$NAME"
+  git config --global user.name  "$NAME_OF_MACHINE"
 
-  echo "What is the git user email?"
+  echo -e "\n\nWhat is the git user email?"
   read EMAIL
   git config --global user.email "$EMAIL"
   touch "$git_done"
 fi
 
 
+if [ ! -d /home/$NEW_USER ]
+then
+  #
+  # Delete user:
+  # http://manpages.ubuntu.com/manpages/hardy/man8/deluser.8.html
+  #
+  # Create home dir manually:
+  # http://forums.fedoraforum.org/showthread.php?t=97089
+  #
+  useradd -d /home/$NEW_USER -m -s $(which bash) --skel /etc/skel $NEW_USER
+
+  # ==== Save name of machine
+  echo "$NAME_OF_MACHINE" > /home/$NEW_USER/NAME_OF_MACHINE
+  chown $NEW_USER:$NEW_USER /home/$NEW_USER/NAME_OF_MACHINE
+fi
+
 if [[ ! -d /apps ]]
 then
-  echo "What git repo to download to /apps? ssh://[ path ]"
-  read URL
-  mkdir -p /apps
-  cd /apps
-  git clone ssh://$URL
+
+  mkdir -p /apps/tmp
+  mkdir /apps/logs
+  mkdir /apps/pids
+  mkdir /apps/backup
 fi
+
+chmod 0755 -R /apps
+chown $NEW_USER:$NEW_USER -R /apps
+
+
 
 
 # ============== Goodbye ===================================================
