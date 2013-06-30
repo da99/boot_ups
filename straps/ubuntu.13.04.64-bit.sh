@@ -100,13 +100,6 @@ sudo apt-get install build-essential            \
                      sqlite3
 
 
-# ===== Check for rootkits with RKHunter and CHKRootKit:
-sudo chkrootkit
-sudo rkhunter --update
-sudo rkhunter --propupd
-sudo rkhunter --check
-
-
 
 # ===== Setup UFW:
 sudo ufw disable

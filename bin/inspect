@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u -e -o pipefail +x
+
+# ===== Check for rootkits with RKHunter and CHKRootKit:
+sudo chkrootkit
+sudo rkhunter --update
+sudo rkhunter --propupd
+sudo rkhunter --check
+
+
+echo -e "\n\n DONE =============\n\n"
+
+#!/usr/bin/env node
+# -*- js   -*-
+#
+
+
