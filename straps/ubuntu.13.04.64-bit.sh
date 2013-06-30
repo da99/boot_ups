@@ -28,7 +28,7 @@ function append_into {
 # === IP-spoofing
 # === Harden Network with sysctl settings:
 # === from: http://cbracco.me/vps/
-append_into  ip.spoof.conf /etc/sysctl.conf
+append_into  sysctl.conf /etc/sysctl.conf
 sudo sysctl -p
 
 append_into etc.host.conf /etc/host.conf
