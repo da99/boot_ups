@@ -24,6 +24,19 @@ function append_into {
   fi
 }
 
+function done_is {
+  touch "/tmp/$1"
+}
+
+function is_not_done {
+  if [[ -f "/tmp/$1" ]]
+  then
+    exit 0
+  else
+    exit 1
+  fi
+}
+
 # =========== Stricter Shared Memory =================
 # === IP-spoofing
 # === Harden Network with sysctl settings:
@@ -40,8 +53,7 @@ sudo mount -a
 
 
 # =========== Localization ===========================
-loc_done="loc_done"
-if [[ is_done $loc_done ]]
+if is_not_done loc
 then
   #
   # from: http://ubuntuforums.org/showthread.php?t=1346581
@@ -50,13 +62,13 @@ then
   sudo dpkg-reconfigure locales
   sudo locale-gen en_US en_US.UTF-8
   sudo update-locale LANG=en_US.UTF-8
-  touch $loc_done
+
+  done_is loc
 fi
 
 
 # =========== Update/Upgrade =========================
-upgrade_done="/tmp/upgrade_done"
-if [[ ! -f "$upgrade_done" ]]
+if is_not_done upgrade
 then
   sudo apt-get update
   sudo apt-get upgrade
@@ -65,8 +77,7 @@ then
   sudo dpkg-reconfigure locales
   sudo date
 
-
-  touch "$upgrade_done"
+  done_is upgrade
 fi
 
 
@@ -127,8 +138,7 @@ sudo apt-get purge postfix exim4 sendmail sendmail-bin
 
 # =========== Install node.js ===============
 # =========== Install Nginx   ===============
-dev_done="/tmp/dev_done"
-if [[ ! -f "$dev_done" ]]
+if is_not_done dev
 then
   sudo add-apt-repository ppa:chris-lea/node.js
   sudo add-apt-repository  nginx/stable
@@ -137,7 +147,8 @@ then
 
   sudo apt-get install nodejs
   sudo apt-get install nginx
-  touch "$dev_done"
+
+  done_is dev
 fi
 
 # ========== Setup base ssh config for bitbucket and github
@@ -159,12 +170,11 @@ fi
 # ==== Get user input:
 # ==== From: http://stackoverflow.com/questions/226703/how-do-i-prompt-for-input-in-a-linux-shell-script
 
-git_done="/tmp/git_done"
-if [[ ! -f "$git_done" ]]
+if is_not_done git
 then
   git config --global user.name  "$NAME_OF_MACHINE"
   git config --global user.email "spam@$NAME_OF_MACHINE"
-  touch "$git_done"
+  done_is git
 fi
 
 
