@@ -129,7 +129,7 @@ sudo apt-get purge postfix exim4 sendmail sendmail-bin
 if is_not_done dev
 then
   sudo add-apt-repository ppa:chris-lea/node.js
-  sudo add-apt-repository  nginx/stable
+  sudo add-apt-repository ppa:nginx/stable
 
   sudo apt-get update
 
