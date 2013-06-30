@@ -31,9 +31,9 @@ function done_is {
 function is_not_done {
   if [[ -f "/tmp/$1" ]]
   then
-    exit 0
-  else
     exit 1
+  else
+    exit 0
   fi
 }
 
@@ -178,7 +178,7 @@ then
 fi
 
 
-if [ ! -d /home/$NEW_USER ]
+if [[ ! -d /home/$NEW_USER ]]
 then
   #
   # Delete user:
