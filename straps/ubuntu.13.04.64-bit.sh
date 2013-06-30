@@ -31,10 +31,12 @@ function append_into {
 append_into  ip.spoof.conf /etc/sysctl.conf
 sudo sysctl -p
 
+append_into etc.host.conf /etc/host.conf
 
 # === Secure shared memory
 append_into  shm.conf /etc/fstab
 sudo mount -a
+
 
 
 # =========== Localization ===========================
