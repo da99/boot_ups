@@ -29,12 +29,7 @@ function done_is {
 }
 
 function is_not_done {
-  if [[ -f "/tmp/$1" ]]
-  then
-    exit 1
-  else
-    exit 0
-  fi
+  [[ ! -f "/tmp/$1" ]]
 }
 
 # =========== Stricter Shared Memory =================
