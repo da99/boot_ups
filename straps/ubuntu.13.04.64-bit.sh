@@ -80,6 +80,7 @@ fi
 sudo apt-get install build-essential            \
                      g++                        \
                      make                       \
+                     cmake                      \
                      software-properties-common \
                      tree                       \
                      trash-cli                  \
