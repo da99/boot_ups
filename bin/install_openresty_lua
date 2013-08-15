@@ -30,7 +30,7 @@ set -u -e -o pipefail
 sudo apt-get install libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make
 
 
-mkdir -p openresty
+mkdir -p openresty/logs
 cd openresty
 
 rm -rf ngx_*.tar.gz
