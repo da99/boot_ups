@@ -99,20 +99,6 @@ sudo apt-get purge postfix exim4 sendmail sendmail-bin
 
 
 
-# =========== Install node.js ===============
-# =========== Install Nginx   ===============
-if is_not_done dev
-then
-  sudo add-apt-repository ppa:chris-lea/node.js
-  sudo add-apt-repository ppa:nginx/stable
-
-  sudo apt-get update
-
-  sudo apt-get install nodejs
-  sudo apt-get install nginx
-
-  done_is dev
-fi
 
 # ========== Setup base ssh config for bitbucket and github
 if [[ ! -f ~/.ssh/config ]]
