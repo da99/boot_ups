@@ -38,7 +38,7 @@ then
   echo "Put this in your path: $lua_path/bin"
 fi
 
-lua_exec="#!/usr/bin/env bash"
+lua_exec="$lua_path/bin/lua"
 if [[ ! -f $lua_exec ]]
 then
   echo "#!/usr/bin/env bash" > $lua_exec
