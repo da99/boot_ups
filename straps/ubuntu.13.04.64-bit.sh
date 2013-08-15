@@ -51,24 +51,20 @@ sudo mount -a
 # =========== Localization ===========================
 if is_not_done loc
 then
-  #
-  # from: http://ubuntuforums.org/showthread.php?t=1346581
-  #
-  # http://www.cgurnik.com/2011/02/20/fixing-perl-warning-setting-locale-failed-in-ubuntu/
-  sudo dpkg-reconfigure locales
-  sudo locale-gen en_US en_US.UTF-8
-  sudo update-locale LANG=en_US.UTF-8
+
+  bin/set_locale
 
   done_is loc
+
 fi
 
 
 # =========== Update/Upgrade =========================
 if is_not_done upgrade
 then
-  sudo apt-get update
-  sudo apt-get upgrade
-  sudo apt-get dist-upgrade
+
+  bin/upgrade
+
   sudo dpkg-reconfigure tzdata
   sudo dpkg-reconfigure locales
   sudo date
@@ -78,45 +74,11 @@ fi
 
 
 # =========== Common Programs =========================
-sudo apt-get install build-essential            \
-                     g++                        \
-                     make                       \
-                     cmake                      \
-                     software-properties-common \
-                     tree                       \
-                     trash-cli                  \
-                     python-software-properties \
-                     zlib1g-dev                 \
-                     libssl-dev                 \
-                     libsqlite3-dev             \
-                     libxslt-dev                \
-                     libxml2-dev                \
-                     libreadline6               \
-                     libreadline6-dev           \
-                     ufw                        \
-                     rkhunter chkrootkit        \
-                     git                        \
-                     curl                       \
-                     htop                       \
-                     atop                       \
-                     sqlite3                    \
-                     autoconf                   \
-                     libgdbm-dev libncurses5-dev \
-                     automake libtool bison      \
-                     libffi-dev                  \
-                     gawk
-
+bin/ubuntu_13_deps
 
 
 # ===== Setup UFW:
-sudo ufw disable
-sudo ufw reset
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw logging on
-sudo ufw allow ssh
-sudo ufw enable
-
+bin/reset_ufw
 
 # =========== Remove apache2 ==========================
 sudo apt-get remove apache2*

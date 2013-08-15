@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+
+sudo apt-get install build-essential            \
+                     g++                        \
+                     make                       \
+                     cmake                      \
+                     software-properties-common \
+                     tree                       \
+                     trash-cli                  \
+                     python-software-properties \
+                     zlib1g-dev                 \
+                     libssl-dev                 \
+                     libsqlite3-dev             \
+                     libxslt-dev                \
+                     libxml2-dev                \
+                     libreadline6               \
+                     libreadline6-dev           \
+                     ufw                        \
+                     rkhunter chkrootkit        \
+                     git                        \
+                     curl                       \
+                     htop                       \
+                     atop                       \
+                     sqlite3                    \
+                     autoconf                   \
+                     libgdbm-dev libncurses5-dev \
+                     automake libtool bison      \
+                     libffi-dev                  \
+                     gawk
+
+

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+#
+# from: http://ubuntuforums.org/showthread.php?t=1346581
+#
+# http://www.cgurnik.com/2011/02/20/fixing-perl-warning-setting-locale-failed-in-ubuntu/
+sudo dpkg-reconfigure locales
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LANG=en_US.UTF-8
+
+
+
