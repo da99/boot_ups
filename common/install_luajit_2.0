@@ -1,0 +1,25 @@
+# -*- bash -*-
+#
+boot="$BOOT_STRAP_PATH"
+if [[ -z "$boot" ]]
+then
+  echo "BOOT_STRAP_PATH not set. exiting..." 
+  exit 1
+fi
+
+set -u -e -o pipefail
+
+
+sudo apt-get install libc6-dev
+
+cd $boot
+lsrc=luajit-2.0_src
+if [[ -d $lsrc  ]]
+then
+  cd $lsrc
+  git pull
+else
+  git clone http://luajit.org/git/luajit-2.0.git $lsrc
+  cd $lsrc
+fi
+
