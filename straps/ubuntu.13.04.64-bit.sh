@@ -4,7 +4,6 @@
 
 set -u -e -o pipefail
 
-NEW_USER="deployer"
 NAME_OF_MACHINE="$1"
 FILES="https://raw.github.com/da99/boot_ups/master/common"
 
@@ -116,8 +115,6 @@ then
   chmod 0440 -R ~/.ssh
 fi
 
-# ==== Get user input:
-# ==== From: http://stackoverflow.com/questions/226703/how-do-i-prompt-for-input-in-a-linux-shell-script
 
 if is_not_done git
 then
@@ -126,33 +123,6 @@ then
   done_is git
 fi
 
-
-if [[ ! -d /home/$NEW_USER ]]
-then
-  #
-  # Delete user:
-  # http://manpages.ubuntu.com/manpages/hardy/man8/deluser.8.html
-  #
-  # Create home dir manually:
-  # http://forums.fedoraforum.org/showthread.php?t=97089
-  #
-  useradd -d /home/$NEW_USER -m -s $(which bash) --skel /etc/skel $NEW_USER
-
-  # ==== Save name of machine
-  echo "$NAME_OF_MACHINE" > /home/$NEW_USER/NAME_OF_MACHINE
-  chown $NEW_USER:$NEW_USER /home/$NEW_USER/NAME_OF_MACHINE
-fi
-
-if [[ ! -d $apps_dir/tmp ]]
-then
-  mkdir -p /apps/tmp
-  mkdir /apps/logs
-  mkdir /apps/pids
-  mkdir /apps/backup
-fi
-
-chmod 0755 -R /apps
-chown $NEW_USER:$NEW_USER -R /apps
 
 
 # ============== Goodbye ===================================================
