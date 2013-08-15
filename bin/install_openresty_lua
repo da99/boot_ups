@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+
+# === This is bad practice.
+if [[ "$@" == "-h" ]]
+then
+  echo ""
+  echo "========================="
+  echo "Change into the dir where"
+  echo "your app is in. Example:"
+  echo "   cd /my_apps/my_blog"
+  echo "Then run this script."
+  echo "w/o \"-h\""
+  echo "========================="
+  exit 0
+fi
+
+my_app="$(pwd)"
+base="ngx_openresty-1.2.8.6"
+
+set -u -e -o pipefail
+
+sudo apt-get install libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make
+
+
+mkdir -p openresty
+rm -rf ngx_*.tar.gz
+cd openresty
+
+wget http://openresty.org/download/$base.tar.gz
+tar xzvf ngx_*.tar.gz
+
+cd $base
+./configure                     \
+   prefix=$my_app/openresty     \
+   --with-luajit                \
+   --with-http_postgres_module  \
+   --without-http_redis2_module
+make
+make install
