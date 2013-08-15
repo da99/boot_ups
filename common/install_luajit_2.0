@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # -*- bash -*-
 #
 boot="$BOOT_STRAP_PATH"
@@ -12,7 +13,8 @@ lua_path="$boot/luajit"
 set -u -e -o pipefail
 
 
-sudo apt-get install libc6-dev
+sudo apt-get install libc6-dev rlwrap
+# rlwrap is needed to wrap readline support with the luajit repl
 
 cd $boot
 if [[ -d $lsrc  ]]
@@ -34,4 +36,12 @@ git checkout Makefile
 if [[ "$(command -v luajit)" != "$lua_path/bin/luajit" ]]
 then
   echo "Put this in your path: $lua_path/bin"
+fi
+
+lua_exec="#!/usr/bin/env bash"
+if [[ ! -f $lua_exec ]]
+then
+  echo "#!/usr/bin/env bash" > $lua_exec
+  echo "rlwrap luajit"      >> $lua_exec
+  chmod +x $lua_exec
 fi
