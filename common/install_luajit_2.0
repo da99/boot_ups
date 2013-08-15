@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+this_dir="$(pwd)"
+cd ..
 boot="$(pwd)"
+cd $this_dir
+
 lsrc=luajit-2.0_src
 lua_path="$boot/luajit"
 set -u -e -o pipefail
@@ -33,7 +37,7 @@ then
   echo ""
   echo "======================="
   echo "Put this in your path: "
-  echo "export PATH=\"$lua_path/bin:$PATH\""
+  echo "export PATH=\"$lua_path/bin:\$PATH\""
   echo "======================="
   echo ""
 fi
