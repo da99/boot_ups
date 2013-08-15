@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+dir="$(pwd)"
+cd ..
+boot="$(pwd)"
+cd $dir
+
+set -u -e -o pipefail
+
+rc="$HOME/.rvmrc"
+
+if [[ ! -f $rc ]]
+then
+  echo "rvm_path=$boot/rvm"      >> $rc
+  echo "rvm_ignore_dotfiles=yes" >> $rc
+fi
+
+curl -L https://get.rvm.io | bash -s stable
+$boot/rvm install 2.0.0
+
+
+
