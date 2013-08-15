@@ -42,6 +42,15 @@ then
   echo -e "\n======================"
   echo    "Put this in your \$PATH:"
   echo    "export PATH=\"$rvm_path/bin:\$PATH\""
+else
+  export PATH="$rvm_path/bin:$PATH"
 fi
+
+if [[ ! -f /etc/gemrc ]]
+then
+  sudo cp common/_gemrc /etc/gemrc
+fi
+
+gem update --system
 
 
