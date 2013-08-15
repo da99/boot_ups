@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+
+cmd="$@"
+if [[ -z "$@" ]]
+then
+  rlwrap lua
+else
+  luajit "$@"
+fi
+
+
+

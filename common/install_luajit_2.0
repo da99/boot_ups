@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-boot="$BOOT_STRAP_PATH"
-if [[ -z "$boot" ]]
-then
-  echo "BOOT_STRAP_PATH not set. exiting..."
-  exit 1
-fi
-
+boot="$(pwd)"
 lsrc=luajit-2.0_src
 lua_path="$boot/luajit"
 set -u -e -o pipefail
@@ -35,13 +29,18 @@ git checkout Makefile
 
 if [[ "$(command -v luajit)" != "$lua_path/bin/luajit" ]]
 then
-  echo "Put this in your path: $lua_path/bin"
+  echo ""
+  echo ""
+  echo "======================="
+  echo "Put this in your path: "
+  echo "export PATH=\"$lua_path/bin:$PATH\""
+  echo "======================="
+  echo ""
 fi
 
 lua_exec="$lua_path/bin/lua"
 if [[ ! -f $lua_exec ]]
 then
-  echo "#!/usr/bin/env bash" > $lua_exec
-  echo "rlwrap luajit"      >> $lua_exec
+  cp "$boot/boot_ups/bin/lua" $lua_exec
   chmod +x $lua_exec
 fi
