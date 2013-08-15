@@ -98,7 +98,8 @@ sudo apt-get install build-essential            \
                      curl                       \
                      htop                       \
                      atop                       \
-                     sqlite3
+                     sqlite3                    \
+                     autoconf
 
 
 
