@@ -31,17 +31,31 @@ sudo apt-get install libreadline-dev libncurses5-dev libpcre3-dev libssl-dev per
 
 
 mkdir -p openresty
-rm -rf ngx_*.tar.gz
 cd openresty
+
+rm -rf ngx_*.tar.gz
 
 wget http://openresty.org/download/$base.tar.gz
 tar xzvf ngx_*.tar.gz
 
 cd $base
+
+echo -e "\n==============================="
+
+set -x
+dir="$my_app/openresty"
 ./configure                     \
-   prefix=$my_app/openresty     \
+   --prefix=$dir                \
    --with-luajit                \
    --with-http_postgres_module  \
    --without-http_redis2_module
 make
 make install
+
+set +x
+echo -e "\n==============================="
+echo "Done installing to:"
+echo "$dir"
+echo -e "==============================="
+
+
