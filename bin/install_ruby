@@ -11,6 +11,7 @@ dir="$(pwd)"
 cd ..
 boot="$(pwd)"
 rvm_path="$boot/rvm"
+rvm="$rvm_path/bin/rvm"
 ver=2.0.0
 cd $dir
 
@@ -29,8 +30,8 @@ then
   curl -L https://get.rvm.io | bash -s stable
 fi
 
-$rvm_path requirements
-$rvm_path install $ver
+$rvm requirements
+$rvm install $ver
 
 HOME=$rvm_path rvm alias create default $ver
 HOME=$rvm_path rvm alias create current $ver
