@@ -1,19 +1,13 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-#!/usr/bin/env node
-# -*- js   -*-
-#
-#!/usr/bin/env lua
 #
 #
-dir="$(pwd)"
-cd ..
+
 boot="$(pwd)"
 rvm_path="$boot/rvm"
 rvm="$rvm_path/bin/rvm"
 ver=2.0.0
-cd $dir
 
 set -u -e -o pipefail
 
