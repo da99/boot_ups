@@ -99,7 +99,11 @@ sudo apt-get install build-essential            \
                      htop                       \
                      atop                       \
                      sqlite3                    \
-                     autoconf
+                     autoconf                   \
+                     libgdbm-dev libncurses5-dev \
+                     automake libtool bison      \
+                     libffi-dev                  \
+                     gawk
 
 
 
