@@ -26,7 +26,7 @@ cd /apps
 git clone https://github.com/da99/boot_ups.git
 
 cd boot_ups
-bin/install_luajit_2_0
+bin/install_luajit
 
 # do other magical stuff
 

@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+
 set -u -e -o pipefail
 
 NEW_USER="deployer"
 NAME_OF_MACHINE="$1"
 FILES="https://raw.github.com/da99/boot_ups/master/common"
+
+this_dir="$(pwd)"
+cd ..
+apps_dir="$(pwd)"
+cd $this_dir
 
 function append_into {
   name="$1"
@@ -151,9 +157,8 @@ then
   chown $NEW_USER:$NEW_USER /home/$NEW_USER/NAME_OF_MACHINE
 fi
 
-if [[ ! -d /apps ]]
+if [[ ! -d $apps_dir/tmp ]]
 then
-
   mkdir -p /apps/tmp
   mkdir /apps/logs
   mkdir /apps/pids

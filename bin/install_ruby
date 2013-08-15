@@ -37,13 +37,13 @@ HOME=$rvm_path rvm alias create default $ver
 HOME=$rvm_path rvm alias create current $ver
 
 
-if [[ "$rvm_path/bin/ruby" != "$(command -v ruby)" ]]
+if [[ "$rvm_path/rubies/current/bin/ruby" != "$(command -v ruby)" ]]
 then
   echo -e "\n======================"
   echo    "Put this in your \$PATH:"
-  echo    "export PATH=\"$rvm_path/bin:\$PATH\""
+  echo    "export PATH=\"$rvm_path/rubies/current/bin:\$PATH\""
 else
-  export PATH="$rvm_path/bin:$PATH"
+  export PATH="$rvm_path/rubies/current/bin:$PATH"
 fi
 
 if [[ ! -f /etc/gemrc ]]
