@@ -14,8 +14,20 @@ then
   sudo apt-get install unzip
 fi
 
-apps="$(pwd)"
-target="$apps/luajit"
+lua="$(command -v lua)"
+
+if [[ -z "$lua" ]]
+then
+  echo "!!! FAIL: lua was not found." 1>&2
+  exit 1
+fi
+
+cd "$lua"
+
+target="$(pwd)/.rocks"
+lua_bin="$(dirname $lua)"
+lua_prefix="$(dirname $target_bin)"
+include_path="$(cd $lua_prefix && find "$(pwd)" -name lua.h)"
 
 cd /tmp
 rm -f luarocks-*.tar.gz
@@ -26,9 +38,9 @@ tar xzvf $base.tar.gz
 cd $base
 ./configure                      \
   --prefix=$target               \
-  --rocks-tree=.rocks            \
-  --with-lua=$target             \
-  --with-lua-include=$target/include/luajit-2.0/        \
+  --rocks-tree=$target/.rocks    \
+  --with-lua=$lua_prefix         \
+  --with-lua-include=$include_path        \
   --force-config
 
 make build
