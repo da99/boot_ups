@@ -33,3 +33,13 @@ cd $base
 
 make build
 make install
+
+if [[ -z "$(command -v luarocks)" ]]
+then
+  echo -e "\n=== Luarocks installed, but not in path."
+  echo    "Put this in your path."
+  echo    "$target/bin"
+else
+  echo -e "\n=== Installed: $(command -v luarocks)"
+fi
+
