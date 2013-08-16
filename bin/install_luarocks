@@ -9,6 +9,10 @@
 #
 set -u -e -o pipefail
 
+if [[ -z "$(command -v unzip)" ]]
+then
+  sudo apt-get install unzip
+fi
 
 apps="$(pwd)"
 target="$apps/luajit"
