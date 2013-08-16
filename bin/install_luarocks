@@ -11,7 +11,7 @@ set -u -e -o pipefail
 
 
 apps="$(pwd)"
-target="$(pwd)/luarocks"
+target="$apps/luajit"
 
 cd /tmp
 rm -f luarocks-*.tar.gz
@@ -23,8 +23,9 @@ cd $base
 ./configure                      \
   --prefix=$target               \
   --rocks-tree=.rocks            \
-  --with-lua=$apps/luajit        \
-  --with-lua-include=$apps/luajit/include/luajit-2.0/        \
+  --with-lua=$target             \
+  --with-lua-include=$target/include/luajit-2.0/        \
   --force-config
 
-make
+make build
+make install
