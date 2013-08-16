@@ -24,6 +24,7 @@ cd $base
   --prefix=$target               \
   --rocks-tree=.rocks            \
   --with-lua=$apps/luajit        \
+  --with-lua-include=$apps/luajit/include/luajit-2.0/        \
   --force-config
 
 make
