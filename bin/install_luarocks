@@ -25,7 +25,8 @@ fi
 target="$(pwd)/.rocks"
 lua_bin="$(dirname $lua)"
 lua_prefix="$(dirname $lua_bin)"
-include_path="$(cd $lua_prefix && find "$(pwd)" -name lua.h)"
+lua_h="$(cd $lua_prefix && find "$(pwd)" -name lua.h)"
+include_path="$(dirname $lua_h)"
 
 cd /tmp
 rm -f luarocks-*.tar.gz
