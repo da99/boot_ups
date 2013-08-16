@@ -22,6 +22,7 @@ then
   exit 1
 fi
 
+prefix=$(pwd)
 target="$(pwd)/.rocks"
 lua_bin="$(dirname $lua)"
 lua_prefix="$(dirname $lua_bin)"
@@ -37,7 +38,7 @@ tar xzvf $base.tar.gz
 cd $base
 ./configure                      \
   --prefix=$target               \
-  --rocks-tree=$target/.rocks    \
+  --rocks-tree=$target           \
   --with-lua=$lua_prefix         \
   --with-lua-include=$include_path        \
   --force-config
@@ -45,6 +46,7 @@ cd $base
 make build
 make install
 
+cd $prefix
 if [[ -z "$(command -v luarocks)" ]]
 then
   echo -e "\n=== Luarocks installed, but not in path."
