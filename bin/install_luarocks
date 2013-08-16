@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+
+apps="$(pwd)"
+target="$(pwd)/luarocks"
+
+cd /tmp
+rm -f luarocks-*.tar.gz
+base="luarocks-2.1.0"
+wget http://luarocks.org/releases/$base.tar.gz
+
+tar xzvf $base.tar.gz
+cd $base
+./configure                      \
+  --prefix=$target               \
+  --rocks-tree=.rocks            \
+  --with-lua=$apps/luajit        \
+  --force-config
+
+make
