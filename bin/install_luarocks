@@ -22,8 +22,6 @@ then
   exit 1
 fi
 
-cd "$lua"
-
 target="$(pwd)/.rocks"
 lua_bin="$(dirname $lua)"
 lua_prefix="$(dirname $target_bin)"
