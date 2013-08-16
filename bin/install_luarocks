@@ -24,7 +24,7 @@ fi
 
 target="$(pwd)/.rocks"
 lua_bin="$(dirname $lua)"
-lua_prefix="$(dirname $target_bin)"
+lua_prefix="$(dirname $lua_bin)"
 include_path="$(cd $lua_prefix && find "$(pwd)" -name lua.h)"
 
 cd /tmp
@@ -48,7 +48,7 @@ if [[ -z "$(command -v luarocks)" ]]
 then
   echo -e "\n=== Luarocks installed, but not in path."
   echo    "Put this in your path."
-  echo    "$target/bin"
+  echo    ".rocks/bin"
 else
   echo -e "\n=== Installed: $(command -v luarocks)"
 fi
