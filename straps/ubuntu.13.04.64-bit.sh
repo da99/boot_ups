@@ -1,23 +1,30 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-
-set -u -e -o pipefail
-
-NAME_OF_MACHINE="$1"
-FILES="https://raw.github.com/da99/boot_ups/master/common"
-
-this_dir="$(pwd)"
-temp=/tmp/boot_ups
-cd ..
-apps_dir="$(pwd)"
-
+#
+# This file has to be run in /tmp
 # === The perms for $apps_dir will change.
 #     Git will report changes to the tree.
 #     We do not want that, so we move this
 #     dir to a diff place.
-mv $this_dir $temp
-cd $temp
+
+# Pass args to this file:
+#    this_file NAME_OF_MACHINE /target/dir
+
+set -u -e -o pipefail
+
+NAME_OF_MACHINE="$1"
+apps_dir="$2"
+FILES="https://raw.github.com/da99/boot_ups/master/common"
+
+temp=/tmp/boot_ups
+if [[ "$temp" != "$(pwd)" ]]
+then
+  echo "!!! Invalid dir. PWD must be: $temp" 1>&2
+  exit 1
+fi
+
+
 
 function append_into {
   name="$1"
