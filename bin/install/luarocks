@@ -32,7 +32,7 @@ include_path="$(dirname $lua_h)"
 cd /tmp
 rm -f luarocks-*.tar.gz
 base="luarocks-2.1.0"
-wget http://luarocks.org/releases/$base.tar.gz
+curl -fsSO http://luarocks.org/releases/$base.tar.gz
 
 tar xzvf $base.tar.gz
 cd $base

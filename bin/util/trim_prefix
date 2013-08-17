@@ -18,7 +18,10 @@ do
   path=$i
   name=$(basename $path)
   new=$( echo $name | sed -e "s|$prefix||" )
-  mv $path $dir/$new
+  new_path="$dir/$new"
+
+  mv $path $new_path
+  echo $new_path
 done
 
 
