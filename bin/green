@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+GREEN="\e[32m"
+NO_COLOUR="\e[0m"
+echo -e "${GREEN}${@}${NO_COLOUR}"
+
+
+

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+# === From:
+#     http://misc.flogisoft.com/bash/tip_colors_and_formatting
+RED="\e[33m"
+NO_COLOUR="\e[0m"
+echo -e "${RED}${@}${NO_COLOUR}"
+
+
+
