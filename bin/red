@@ -1,19 +1,25 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-#!/usr/bin/env node
-# -*- js   -*-
-#
-#!/usr/bin/env lua
-#
 #
 set -u -e -o pipefail
+
 
 # === From:
 #     http://misc.flogisoft.com/bash/tip_colors_and_formatting
 RED="\e[31m"
 NO_COLOUR="\e[0m"
-echo -e "${RED}${@}${NO_COLOUR}"
+
+
+if [[ -z "$@" ]]
+then
+  while read line; do
+    echo -e "$RED${line}$NO_COLOUR";
+  done
+else
+  echo -e "${RED}${@}${NO_COLOUR}"
+fi
+
 
 
 

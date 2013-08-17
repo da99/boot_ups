@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+this_dir="$(dirname $0)"
+
+# === From:
+#     http://www.catonmat.net/blog/bash-one-liners-explained-part-three/ 
+$@ 2>&1 > /dev/null | $this_dir/red
