@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+cd $1
+dir="$(pwd)"
+prefix="$2"
+
+for i in $dir/*
+do
+  path=$i
+  name=$(basename $path)
+  new=$( echo $name | sed -e "s|$prefix||" )
+  mv $path $dir/$new
+done
+
+
