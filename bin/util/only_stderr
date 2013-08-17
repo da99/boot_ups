@@ -10,7 +10,8 @@
 set -u -e -o pipefail
 
 this_dir="$(dirname $0)"
+bin="$(dirname $this_dir)"
 
 # === From:
-#     http://www.catonmat.net/blog/bash-one-liners-explained-part-three/ 
-$@ 2>&1 > /dev/null | $this_dir/red
+#     http://www.catonmat.net/blog/bash-one-liners-explained-part-three/
+$@ 2>&1 > /dev/null | $bin/color/red

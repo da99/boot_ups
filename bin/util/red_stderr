@@ -10,9 +10,10 @@
 set -u -e -o pipefail
 
 this_dir="$(dirname $0)"
+bin="$(dirname $this_dir)"
 
 # === From:
 #     http://stackoverflow.com/questions/3618078/pipe-only-stderr-through-a-filter
-$@ 3>&1 1>&2 2>&3 3>&- | $(dirname $this_dir)/color/red
+$@ 3>&1 1>&2 2>&3 3>&- | $bin/color/red
 
 
