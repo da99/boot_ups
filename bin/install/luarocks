@@ -29,7 +29,8 @@ lua_prefix="$(dirname $lua_bin)"
 lua_h="$(cd $lua_prefix && find "$(pwd)" -name lua.h)"
 include_path="$(dirname $lua_h)"
 
-cd /tmp
+mkdir -p .rocks
+cd .rocks
 rm -f luarocks-*.tar.gz
 base="luarocks-2.1.0"
 curl -fsSO http://luarocks.org/releases/$base.tar.gz
@@ -55,4 +56,6 @@ then
 else
   echo -e "\n=== Installed: $(command -v luarocks)"
 fi
+
+
 
