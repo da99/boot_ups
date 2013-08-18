@@ -14,11 +14,12 @@ shift
 
 while true
 do
-  sleep 0.8
+  sleep 0.6
   changes="$(cat $temp)"
   if [[ ! -z "$changes" ]]
   then
-    $@ $changes
+    set +u +e +o pipefail
+    FILE_CHANGE="$changes" $@ 
     echo "" > $temp
   fi
 done

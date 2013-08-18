@@ -17,6 +17,12 @@
 #     ./.git
 #     ./dir/file.git/
 
+ignore="$IGNORE"
+if [[ ! -z "$ignore" ]]
+then
+  ignore="--exclude $ignore"
+fi
+
 set -u -e -o pipefail
 me=$0
 dir="$(dirname $me)"
@@ -33,7 +39,7 @@ $(dirname $0)/watch_run $temp "$@" &
 run_id=$!
 
 cleanup () {
-  kill $run_id
+  kill $run_id || true
   rm $temp
 }
 
@@ -43,15 +49,21 @@ echo "---- Process: $run_id ----"
 
 # === From an answer by "technosaurus":
 #     http://stackoverflow.com/a/18295696/841803
-inotifywait -q -m --exclude .git/ -r . | while read CHANGE
+inotifywait -q -m --exclude .git/ $ignore -r . | while read CHANGE
 do
 
   op=$(echo "$CHANGE" | cut -d' ' -f 2)
   file=$(echo "$CHANGE" | cut -d' ' -f 3)
+
   if [[ ( ! "$op" =~ "NOWRITE" ) && ( "$op" =~ "CLOSE" || "$op" =~ "WRITE" )  && ! -z "$file" ]]
   then
     echo $CHANGE > $temp
-
   fi
 
 done
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+
+if [[ "$1" == "change" ]]
+then
+  shift
+  if [[ "$FILE_CHANGE" =~ ".lua" ]]
+  then
+    $@
+    echo -e "=========================================\n"
+  fi
+else
+  IGNORE=.rocks/ $(dirname $0)/watch $0 change "$@"
+fi
+
