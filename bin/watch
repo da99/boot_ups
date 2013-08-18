@@ -28,14 +28,18 @@ then
   exit 1
 fi
 
-# set +u +e +o pipefail
-
 temp="$(mktemp)"
-
 $(dirname $0)/watch_run $temp "$@" &
 run_id=$!
+
+cleanup () {
+  kill $run_id
+  rm $temp
+}
+
+trap cleanup SIGINT SIGTERM
+
 echo "---- Process: $run_id ----"
-trap "kill $run_id" SIGINT SIGTERM
 
 # === From an answer by "technosaurus":
 #     http://stackoverflow.com/a/18295696/841803
