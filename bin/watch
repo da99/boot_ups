@@ -28,16 +28,26 @@ then
   exit 1
 fi
 
-set +u +e +o pipefail
+# set +u +e +o pipefail
 
-while true; do
-  change=$(inotifywait -q --exclude .git/ -r . )
+temp="$(mktemp)"
 
-  # Yes, I know. I need to learn sed:
-  if [[ ( ! -z "$cmd" ) && ( ! "$cmd" =~ " OPEN,ISDIR" ) && ( ! "$change" =~ " OPEN " ) && ( "$change" =~ " MODIFY " || "$change" =~ "CLOSE_WRITE" || "$change" =~ " CHANGE " || "$change" =~ " MOVED" || "$change" =~ " CREATE"  || "$change" =~ "DELETE") ]]
+$(dirname $0)/watch_run $temp "$@" &
+run_id=$!
+echo "---- Process: $run_id ----"
+trap "kill $run_id" SIGINT SIGTERM
+
+# === From an answer by "technosaurus":
+#     http://stackoverflow.com/a/18295696/841803
+inotifywait -q -m --exclude .git/ -r . | while read CHANGE
+do
+
+  op=$(echo "$CHANGE" | cut -d' ' -f 2)
+  file=$(echo "$CHANGE" | cut -d' ' -f 3)
+  if [[ ( ! "$op" =~ "NOWRITE" ) && ( "$op" =~ "CLOSE" || "$op" =~ "WRITE" )  && ! -z "$file" ]]
   then
-    echo ""
-    $cmd $change
+    echo $CHANGE > $temp
+
   fi
 
 done

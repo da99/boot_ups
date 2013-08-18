@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+#
+#
+set -u -e -o pipefail
+
+temp=$1
+shift
+
+while true
+do
+  sleep 0.8
+  changes="$(cat $temp)"
+  if [[ ! -z "$changes" ]]
+  then
+    $@ $changes
+    echo "" > $temp
+  fi
+done
