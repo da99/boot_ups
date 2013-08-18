@@ -11,6 +11,11 @@
 #  The script will send the output
 #  of inotifywaut to `my_script`.
 #
+#  Files/dirs with .git in the name are ignored.
+#  Example:
+#     .git
+#     ./.git
+#     ./dir/file.git/
 
 set -u -e -o pipefail
 me=$0
@@ -26,11 +31,10 @@ fi
 set +u +e +o pipefail
 
 while true; do
-  # change=$(inotifywait -q  -r . )
-  change=$(inotifywait -q --exclude .git -r . )
+  change=$(inotifywait -q --exclude .git/ -r . )
 
   # Yes, I know. I need to learn sed:
-  if [[ ( ! -z "$cmd" ) && ( ! "$cmd" =~ " OPEN,ISDIR" ) && ( ! "$change" =~ " OPEN ") && ( "$change" =~ " MODIFY " || "$change" =~ "CLOSE_WRITE" || "$change" =~ " CHANGE " ) ]]
+  if [[ ( ! -z "$cmd" ) && ( ! "$cmd" =~ " OPEN,ISDIR" ) && ( ! "$change" =~ " OPEN " ) && ( "$change" =~ " MODIFY " || "$change" =~ "CLOSE_WRITE" || "$change" =~ " CHANGE " || "$change" =~ " MOVED" || "$change" =~ " CREATE"  || "$change" =~ "DELETE") ]]
   then
     echo ""
     $cmd $change
