@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#  For more info on inotifywait:
+#    http://manpages.ubuntu.com/manpages/hardy/man1/inotifywait.1.html
+#
+#
+#  Use this file as:
+#    boot_up/bin/watch my_script
+#
+#  The script will send the output
+#  of inotifywaut to `my_script`.
+#
+
+set -u -e -o pipefail
+me=$0
+dir="$(dirname $me)"
+cmd="$@"
+
+if [[ -z "$@" ]]
+then
+  echo "No command given. Exiting..." 1>&2
+  exit 1
+fi
+
+set +u +e +o pipefail
+
+while true; do
+  # change=$(inotifywait -q  -r . )
+  change=$(inotifywait -q --exclude .git -r . )
+
+  # Yes, I know. I need to learn sed:
+  if [[ ( ! -z "$cmd" ) && ( ! "$cmd" =~ " OPEN,ISDIR" ) && ( ! "$change" =~ " OPEN ") && ( "$change" =~ " MODIFY " || "$change" =~ "CLOSE_WRITE" || "$change" =~ " CHANGE " ) ]]
+  then
+    echo ""
+    $cmd $change
+  fi
+
+done
