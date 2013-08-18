@@ -45,7 +45,7 @@ cleanup () {
 
 trap cleanup SIGINT SIGTERM
 
-echo "---- Process: $run_id ----"
+# echo "---- Process: $run_id ----"
 
 # === From an answer by "technosaurus":
 #     http://stackoverflow.com/a/18295696/841803
