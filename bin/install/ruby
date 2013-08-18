@@ -1,50 +1,53 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
 #
 #
-
-boot="$(pwd)"
-rvm_path="$boot/rvm"
-rvm="$rvm_path/bin/rvm"
-ver=2.0.0
-
 set -u -e -o pipefail
 
-rc="$HOME/.rvmrc"
+apps=$(pwd)
+up=$apps/boot_ups/bin
 
-if [[ ! -f $rc ]]
+mkdir -p ruby
+cd ruby
+base=ruby-2.0.0-p247
+rm -f $base.tar.gz
+
+if [[ ! -d $base ]]
 then
-  echo "rvm_path=$rvm_path"      >> $rc
-  echo "rvm_ignore_dotfiles=yes" >> $rc
+  curl -O ftp://ftp.ruby-lang.org/pub/ruby/2.0/$base.tar.gz
+  $up/util/untar $base.tar.gz
 fi
 
-if [[ ! -d $rvm_path ]]
-then
-  curl -L https://get.rvm.io | bash -s stable
-fi
+cd $base
 
-$rvm requirements
-$rvm install $ver
+# === https://github.com/wayneeseguin/rvm/blob/master/scripts/functions/requirements/ubuntu 
+# sudo apt-get update
+sudo apt-get install git-core \
+  curl gawk zlib1g-dev        \
+  build-essential libssl-dev  \
+  libreadline-dev libyaml-dev \
+  libsqlite3-dev sqlite3      \
+  libxml2-dev libxslt-dev     \
+bash curl patch bzip2 ca-certificates gawk \
+g++ gcc make libc6-dev patch openssl ca-certificates libreadline6 \
+libreadline6-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev \
+libsqlite3-dev sqlite3 autoconf \
+libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 
-HOME=$rvm_path rvm alias create default $ver
-HOME=$rvm_path rvm alias create current $ver
+./configure --prefix=$apps/ruby --enable-shared --disable-install-doc
+make
+make check || true
+make install
+$apps/ruby/bin/gem update
+$apps/ruby/bin/gem update --system
+$apps/ruby/bin/gem install bundler
 
-
-if [[ "$rvm_path/rubies/current/bin/ruby" != "$(command -v ruby)" ]]
-then
-  echo -e "\n======================"
-  echo    "Put this in your \$PATH:"
-  echo    "export PATH=\"$rvm_path/rubies/current/bin:\$PATH\""
-else
-  export PATH="$rvm_path/rubies/current/bin:$PATH"
-fi
-
-if [[ ! -f /etc/gemrc ]]
-then
-  sudo cp common/_gemrc /etc/gemrc
-fi
-
-gem update --system
+echo -e "\n==== Done."
+$apps/ruby/bin/ruby -v
 
 
