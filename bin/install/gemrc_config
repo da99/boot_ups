@@ -19,5 +19,9 @@ gem: --no-ri --no-rdoc
 :update_sources: true"
   echo "$content" > /tmp/gemrc_temp
   sudo mv /tmp/gemrc_temp /etc/gemrc
+  echo "Wrote to /etc/gemrc:"
+else
+  echo "File already exists: /etc/gemrc"
 fi
 
+echo "$content"
