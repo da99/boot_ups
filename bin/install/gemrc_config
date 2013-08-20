@@ -24,4 +24,4 @@ else
   echo "File already exists: /etc/gemrc"
 fi
 
-echo "$content"
+cat /etc/gemrc
