@@ -9,6 +9,21 @@
 #
 set -u -e -o pipefail
 
+if [[ "$@" =~ ".gz" ]]
+then
 
-tar xzvf "$@"
+  tar xzvf "$@"
+
+else
+
+  if [[ "$@" =~ ".bz2" ]]
+  then
+    tar xvjf "$@"
+  else
+    echo "Unknown file type: $@" 1>&2
+    exit 1
+  fi
+
+fi
+
 
