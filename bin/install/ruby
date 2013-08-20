@@ -40,10 +40,13 @@ libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 ./configure --prefix=$target --enable-shared --disable-install-doc
 make
 # make check || true
+
+$UP/install/gemrc_config
+
 make install
-$target/bin/gem update
+$target/bin/gem update --no-document
 $target/bin/gem update --system
-$target/bin/gem install bundler
+$target/bin/gem install bundler --no-document
 
 echo -e "\n==== Done."
 $target/bin/ruby -v
