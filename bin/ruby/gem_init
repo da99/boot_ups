@@ -28,14 +28,14 @@ gemspec="$name.gemspec"
 contents="
 Gem::Specification.new do |s|
   s.name        = '$name'
-  s.version     = '0.0.0'
+  s.version     = %x(cat VERSION)
   s.date        = '$(date +"%Y-%m-%d")'
   s.summary     = \"Not ready.\"
   s.description = \"Not ready.\"
   s.authors     = [\"$user\"]
   s.email       = '$user@$user'
   #s.executables = [\"$name\"]
-  s.files       = \`ls lib/\`.split(\"\n\").map { |f| \"lib/#{f}\" }
+  s.files       = %x(ls lib/).split(\"\n\").map { |f| \"lib/#{f}\" }
   s.homepage    = 'http://www.github.com/$user/$name'
   s.license     = 'MIT'
 
@@ -94,12 +94,17 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 "
 
+if [[ ! -f VERSION ]]
+then
+  echo -e "0.0.0" >> VERSION
+  echo -e "=== wrote: VERSION"
+fi
+
 if [[ ! -f LICENSE ]]
 then
   echo -e "$contents" >> LICENSE
   echo -e "=== wrote: LICENSE"
 fi
-
 
 if [[ ! -d .git ]]
 then
