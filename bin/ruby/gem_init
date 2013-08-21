@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.description = \"Not ready.\"
   s.authors     = [\"$user\"]
   s.email       = '$user@$user'
-  s.executables = [\"$name\"]
+  #s.executables = [\"$name\"]
   s.files       = \`ls lib/\`.split(\"\n\").map { |f| \"lib/#{f}\" }
   s.homepage    = 'http://www.github.com/$user/$name'
   s.license     = 'MIT'
