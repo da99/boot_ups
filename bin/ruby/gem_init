@@ -108,6 +108,17 @@ then
   echo -e "=== wrote: git init, origin $url"
 fi
 
+if [[ ! -d "test" ]]
+then
+  mkdir -p tests
+fi
+
+if [[ ! -d lib ]]
+then
+  mkdir -p lib
+  touch lib/$name.rb
+fi
+
 $green "=== Done writing: $name\n"
 
 
