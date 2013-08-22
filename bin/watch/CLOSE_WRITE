@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#
+set -u -e -o pipefail
+
+cmd="$@"
+temp="$(mktemp)"
+
+cleanup () {
+  rm -f $temp
+}
+
+epoch () {
+  echo $(($(date +%s%N)/1000000))
+}
+
+trap cleanup SIGINT SIGTERM
+
+export EPOCH="$(epoch)"
+export EPOCH_DIFF="0"
+
+inotifywait -q -m  --exclude '/\.' -r . | while read CHANGE
+do
+
+  export EPOCH_DIFF="$(expr "$(epoch)" - "$EPOCH")"
+
+  dir=$(echo "$CHANGE" | cut -d' ' -f 1)
+  op=$(echo "$CHANGE" | cut -d' ' -f 2)
+  file=$(echo "$CHANGE" | cut -d' ' -f 3)
+  export FILE="$dir$file"
+
+  if [[ "$op" =~ "CLOSE_WRITE"  && ! -z "$file" && -f "$FILE" ]]
+  then
+    export OLD_EPOCH="$EPOCH"
+    export EPOCH="$(epoch)"
+    export CHANGE="$CHANGE"
+    export OP="$op"
+    $cmd
+  else
+    if [[ "$op" =~ "CLOSE" && ! "$op" =~ "NOWRITE" ]]
+    then
+      echo "=== ignoring: $CHANGE"
+    fi
+  fi
+
+done
+
+
+
+
+
+
