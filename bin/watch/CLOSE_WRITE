@@ -24,7 +24,7 @@ export FIRST_RUN="yes"
 $cmd
 export FIRST_RUN=""
 
-inotifywait -q -m  --exclude '/\.' -r . | while read CHANGE
+inotifywait -e CLOSE_WRITE -q -m  --exclude '/\.' -r . | while read CHANGE
 do
 
   export EPOCH_DIFF="$(expr "$(epoch)" - "$EPOCH")"
@@ -34,7 +34,7 @@ do
   file=$(echo "$CHANGE" | cut -d' ' -f 3)
   export FILE="$dir$file"
 
-  if [[ "$op" =~ "CLOSE_WRITE"  && ! -z "$file" && -f "$FILE" ]]
+  if [[ ! -z "$file" && -f "$FILE" ]]
   then
     export OLD_EPOCH="$EPOCH"
     export EPOCH="$(epoch)"
