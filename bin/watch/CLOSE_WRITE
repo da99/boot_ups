@@ -40,7 +40,7 @@ do
     export EPOCH="$(epoch)"
     export CHANGE="$CHANGE"
     export OP="$op"
-    $cmd
+    $cmd || echo "=== cmd exited with error: $?"
   # else
     # if [[ "$op" =~ "CLOSE" && ! "$op" =~ "NOWRITE" ]]
     # then
