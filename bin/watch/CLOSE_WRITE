@@ -19,6 +19,10 @@ trap cleanup SIGINT SIGTERM
 
 export EPOCH="$(epoch)"
 export EPOCH_DIFF="0"
+export FIRST_RUN="yes"
+
+$cmd
+export FIRST_RUN=""
 
 inotifywait -q -m  --exclude '/\.' -r . | while read CHANGE
 do
@@ -37,11 +41,11 @@ do
     export CHANGE="$CHANGE"
     export OP="$op"
     $cmd
-  else
-    if [[ "$op" =~ "CLOSE" && ! "$op" =~ "NOWRITE" ]]
-    then
-      echo "=== ignoring: $CHANGE"
-    fi
+  # else
+    # if [[ "$op" =~ "CLOSE" && ! "$op" =~ "NOWRITE" ]]
+    # then
+      # echo "=== ignoring: $CHANGE"
+    # fi
   fi
 
 done
