@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#
+dir="$1"
+ext="$2"
+
+if [[ -z "$ext" ]]
+then
+  ext="$dir"
+  dir="./"
+fi
+
+
+set -u -e -o pipefail
+
+
+# --- http://stackoverflow.com/questions/1447625/list-files-with-certain-extensions-with-ls-and-grep 
+find $dir -path .git -prune -o -iregex '.*\('$ext'\)'
