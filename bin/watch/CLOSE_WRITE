@@ -4,7 +4,6 @@
 #
 set -u -e -o pipefail
 
-cmd="$@"
 temp="$(mktemp)"
 
 cleanup () {
@@ -15,13 +14,18 @@ epoch () {
   echo $(($(date +%s%N)/1000000))
 }
 
+args=("$@")
+
+run_args () {
+  "${args[@]}" || echo "=== ${args[0]} exited with error: $?"
+}
+
 trap cleanup SIGINT SIGTERM
 
 export EPOCH="$(epoch)"
 export EPOCH_DIFF="0"
 export FIRST_RUN="yes"
-
-$cmd
+run_args
 export FIRST_RUN=""
 
 inotifywait -e CLOSE_WRITE -q -m  --exclude '/\.' -r . | while read CHANGE
@@ -40,7 +44,7 @@ do
     export EPOCH="$(epoch)"
     export CHANGE="$CHANGE"
     export OP="$op"
-    $cmd || echo "=== cmd exited with error: $?"
+    run_args
   # else
     # if [[ "$op" =~ "CLOSE" && ! "$op" =~ "NOWRITE" ]]
     # then
