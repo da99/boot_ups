@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-new_user="$1"
+new_app="$1"
 set -u -e -o pipefail
 
 ver="$(lsb_release -s -r)"
@@ -27,12 +27,13 @@ sudo apt-get install postgresql-9.2 libpq-dev postgresql-contrib-9.2
 
 if [[ -z "$new_user" ]]
 then
-  echo "=== Skipping creation of user since \$1 was not defined."
+  echo "=== Skipping creation of user/db since \$1 was not defined."
 else
-  sudo -u postgres createuser --no-createdb --encrypted --pwprompt --no-inherit $1
-  sudo -u postgres createdb   --owner=okdoki_user okdoki
+  sudo -u postgres createuser --no-createdb --encrypted --pwprompt --no-inherit $new_app
+  sudo -u postgres createdb   --owner=${new_app}_user $new_app
   echo -e "\n\n==== Update passwrd of superuser: \password postgres , CTRL-D"
   sudo -u postgres psql postgres
+  sudo -u postgres psql ${new_app}  -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 fi
 
 
