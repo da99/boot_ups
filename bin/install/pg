@@ -23,7 +23,7 @@ then
   sudo apt-get install postgresql-common -t raring
 fi
 
-sudo apt-get install postgresql-9.2 libpq-dev
+sudo apt-get install postgresql-9.2 libpq-dev postgresql-contrib-9.2
 
 if [[ -z "$new_user" ]]
 then
