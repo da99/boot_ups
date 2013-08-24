@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+new_user="$1"
 set -u -e -o pipefail
 
-new_user="$1"
 ver="$(lsb_release -s -r)"
 ver_name="$( lsb_release -c | awk '{ print $NF }')"
 orig_name="$ver_name"
@@ -25,10 +25,15 @@ fi
 
 sudo apt-get install postgresql-9.2 libpq-dev
 
-sudo -u postgres createuser --no-createdb --encrypted --pwprompt --no-inherit $1
-sudo -u postgres createdb   --owner=okdoki_user okdoki
-echo -e "\n\n==== Update passwrd of superuser: \password postgres , CTRL-D"
-sudo -u postgres psql postgres
+if [[ -z "$new_user" ]]
+then
+  echo "=== Skipping creation of user since \$1 was not defined."
+else
+  sudo -u postgres createuser --no-createdb --encrypted --pwprompt --no-inherit $1
+  sudo -u postgres createdb   --owner=okdoki_user okdoki
+  echo -e "\n\n==== Update passwrd of superuser: \password postgres , CTRL-D"
+  sudo -u postgres psql postgres
+fi
 
 
 
