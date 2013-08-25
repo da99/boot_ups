@@ -30,7 +30,7 @@ then
   echo "=== Skipping creation of user/db since \$1 was not defined."
 else
   sudo -u postgres createuser --no-createdb --encrypted --pwprompt --no-inherit $new_app
-  sudo -u postgres createdb   --owner=${new_app}_user $new_app --encoding=UTF8 --locale=en_US.UTF-8
+  sudo -u postgres createdb  --encoding=UTF8 --locale=en_US.UTF-8  --owner=${new_app}_user $new_app
   echo -e "\n\n==== Update passwrd of superuser: \password postgres , CTRL-D"
   sudo -u postgres psql postgres
   sudo -u postgres psql ${new_app}  -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
