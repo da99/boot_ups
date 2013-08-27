@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+
+sudo add-apt-repository ppa:rethinkdb/ppa
+sudo apt-get update                  
+sudo apt-get install rethinkdb
+
+set -u -e -o pipefail
