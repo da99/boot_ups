@@ -11,7 +11,9 @@ set -u -e -o pipefail
 
 GREEN="\e[32m"
 NO_COLOUR="\e[0m"
-echo -e "${GREEN}${@}${NO_COLOUR}"
+echo -en "${GREEN}"
+echo -n "$@"
+echo -e "${NO_COLOUR}"
 
 
 
