@@ -4,56 +4,55 @@
 #
 set -u -e -o pipefail
 
-# -- Where is the boot_ups utility folder?
-UP="$UP"
+VER="$1"
+shift
 
-# --- Where do you want to install ruby?
-VER="$VER"
-RUBYs="/progs/ruby"
-SRC="/progs/${VER}"
-DEST="$RUBYs/$VER"
+DEST=/progs/ruby/$VER
 
 
-# --- Create default directorys.
-mkdir -p "$RUBYs"
-
-# -- This needs updating: Auto-downloa ruby source.
-#if [[ ! -d "$SRC" ]]
-#then
-#  rm -f $base.tar.gz
-#  curl -O ftp://ftp.ruby-lang.org/pub/ruby/2.0/$SRC.tar.gz
-#  $up/util/untar $base.tar.gz
-#  mv $base ${base}-src
-#fi
-
-cd "${SRC}"
 
 # === https://github.com/wayneeseguin/rvm/blob/master/scripts/functions/requirements/ubuntu 
-#sudo apt-get update
-#sudo apt-get install git-core \
-#  curl gawk zlib1g-dev        \
-#  build-essential libssl-dev  \
-#  libreadline-dev libyaml-dev \
-#  libsqlite3-dev sqlite3      \
-#  libxml2-dev libxslt-dev     \
-#bash curl patch bzip2 ca-certificates gawk \
-#g++ gcc make libc6-dev patch openssl ca-certificates libreadline6 \
-#libreadline6-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev \
-#libsqlite3-dev sqlite3 autoconf \
-#libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
+echo "=== Updating system using apt-get:"
+sudo apt-get update
+sudo apt-get install git-core \
+ curl gawk zlib1g-dev        \
+ build-essential libssl-dev  \
+ libreadline-dev libyaml-dev \
+ libsqlite3-dev sqlite3      \
+ libxml2-dev libxslt-dev     \
+bash curl patch bzip2 ca-certificates gawk \
+g++ gcc make libc6-dev patch openssl ca-certificates libreadline6 \
+libreadline6-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev \
+libsqlite3-dev sqlite3 autoconf \
+libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 
-./configure --prefix=$DEST --enable-shared --disable-install-doc
-make
-# make check || true
 
-$UP/bin/install/gemrc_config
 
-make install
+# ================ Ensure ruby-build is installed: ====
+cd /progs
+if [[ -d ruby-build ]]; then
+  cd ruby-build
+  git pull
+else
+  git clone https://github.com/sstephenson/ruby-build.git
+  cd ruby-build
+  PREFIX=/progs ./install.sh
+fi
+# =====================================================
+
+# ================ The Main Show ======================
+CONFIGURE_OPTS="--enable-shared --disable-install-doc" bin/ruby-build -v $VER /progs/ruby/$VER "$@"
+# =====================================================
+
+# ================ GEM-related ========================
 $DEST/bin/gem update --no-document
 $DEST/bin/gem update --system
 $DEST/bin/gem install bundler --no-document
+# =====================================================
 
+echo -e "\n==== Done: $DEST/bin/ruby \n"
 $DEST/bin/ruby -v
-echo -e "\n==== Done.\n"
+
+/apps/boot_ups/bin/install/gemrc_config
 
 
